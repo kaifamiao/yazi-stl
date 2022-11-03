@@ -31,69 +31,69 @@ public:
     T * data();
     void swap(Vector<T> & other);
 
-    class Iterator
+    class iterator
     {
     public:
-        Iterator() : m_pointer(nullptr) {}
-        Iterator(T * pointer) : m_pointer(pointer) {}
-        ~Iterator() {}
+        iterator() : m_pointer(nullptr) {}
+        iterator(T * pointer) : m_pointer(pointer) {}
+        ~iterator() {}
 
-        bool operator == (const Iterator & other)
+        bool operator == (const iterator & other)
         {
             return m_pointer == other.m_pointer;
         }
         
-        bool operator != (const Iterator & other)
+        bool operator != (const iterator & other)
         {
             return m_pointer != other.m_pointer;
         }
 
-        Iterator & operator = (const Iterator & other)
+        iterator & operator = (const iterator & other)
         {
             m_pointer = other.m_pointer;
             return *this;
         }
 
-        Iterator & operator ++ ()
+        iterator & operator ++ ()
         {
             m_pointer += 1;
             return *this;
         }
 
-        Iterator operator ++ (int)
+        iterator operator ++ (int)
         {
-            Iterator it = *this;
+            iterator it = *this;
             ++(*this);
             return it;
         }
 
-        Iterator operator + (int i)
+        iterator operator + (int i)
         {
-            Iterator it = *this;
+            iterator it = *this;
             it.m_pointer += i;
             return it;
         }
 
-        Iterator & operator += (int i)
+        iterator & operator += (int i)
         {
             m_pointer += i;
             return *this;
         }
 
-        Iterator operator - (int i)
+        iterator operator - (int i)
         {
-            Iterator it = *this;
+            iterator it = *this;
             it.m_pointer -= i;
             return it;
         }
 
-        Iterator & operator -= (int i)
+        iterator & operator -= (int i)
         {
             m_pointer -= i;
             return *this;
         }
 
-        int operator - (const Iterator & other) const
+        int operator - (const iterator & other) const
         {
             return m_pointer - other.m_pointer;
         }
@@ -112,66 +112,66 @@ public:
         T * m_pointer;
     };
 
-    Iterator begin();
-    Iterator end();
+    iterator begin();
+    iterator end();
 
-    class ReverseIterator
+    class reverse_iterator
     {
     public:
-        ReverseIterator() : m_pointer(nullptr) {}
-        ReverseIterator(T * pointer) : m_pointer(pointer) {}
-        ~ReverseIterator() {}
+        reverse_iterator() : m_pointer(nullptr) {}
+        reverse_iterator(T * pointer) : m_pointer(pointer) {}
+        ~reverse_iterator() {}
 
-        bool operator == (const ReverseIterator & other)
+        bool operator == (const reverse_iterator & other)
         {
             return m_pointer == other.m_pointer;
         }
         
-        bool operator != (const ReverseIterator & other)
+        bool operator != (const reverse_iterator & other)
         {
             return m_pointer != other.m_pointer;
         }
 
-        ReverseIterator & operator = (const ReverseIterator & other)
+        reverse_iterator & operator = (const reverse_iterator & other)
         {
             m_pointer = other.m_pointer;
             return *this;
         }
 
-        ReverseIterator & operator ++ ()
+        reverse_iterator & operator ++ ()
         {
             m_pointer -= 1;
             return *this;
         }
 
-        ReverseIterator operator ++ (int)
+        reverse_iterator operator ++ (int)
         {
-            ReverseIterator it = *this;
+            reverse_iterator it = *this;
             ++(*this);
             return it;
         }
 
-        ReverseIterator operator + (int i)
+        reverse_iterator operator + (int i)
         {
-            ReverseIterator it = *this;
+            reverse_iterator it = *this;
             it.m_pointer -= i;
             return it;
         }
 
-        ReverseIterator & operator += (int i)
+        reverse_iterator & operator += (int i)
         {
             m_pointer -= i;
             return *this;
         }
 
-        ReverseIterator operator - (int i)
+        reverse_iterator operator - (int i)
         {
-            ReverseIterator it = *this;
+            reverse_iterator it = *this;
             it.m_pointer += i;
             return it;
         }
 
-        ReverseIterator & operator -= (int i)
+        reverse_iterator & operator -= (int i)
         {
             m_pointer += i;
             return *this;
@@ -191,22 +191,22 @@ public:
         T * m_pointer;
     };
 
-    ReverseIterator rbegin();
-    ReverseIterator rend();
+    reverse_iterator rbegin();
+    reverse_iterator rend();
 
-    Iterator find(const T & value);
-    Iterator rfind(const T & value);
+    iterator find(const T & value);
+    iterator rfind(const T & value);
 
-    Iterator insert(Iterator it, const T & value);
-    Iterator insert(Iterator it, int n, const T & value);
+    iterator insert(iterator pos, const T & value);
+    iterator insert(iterator pos, int n, const T & value);
 
-    Iterator erase(Iterator it);
-    Iterator erase(Iterator first, Iterator last);
+    iterator erase(iterator pos);
+    iterator erase(iterator first, iterator last);
 
 private:
     bool is_basic_type();
 
-private:
+protected:
     T * m_data;
     int m_size;
     int m_capacity;
@@ -504,37 +504,37 @@ void Vector<T>::swap(Vector<T> & other)
 }
 
 template <typename T>
-typename Vector<T>::Iterator Vector<T>::begin()
+typename Vector<T>::iterator Vector<T>::begin()
 {
-    Vector<T>::Iterator it(m_data);
+    Vector<T>::iterator it(m_data);
     return it;
 }
 
 template <typename T>
-typename Vector<T>::Iterator Vector<T>::end()
+typename Vector<T>::iterator Vector<T>::end()
 {
-    Vector<T>::Iterator it(m_data + m_size);
+    Vector<T>::iterator it(m_data + m_size);
     return it;
 }
 
 template <typename T>
-typename Vector<T>::ReverseIterator Vector<T>::rbegin()
+typename Vector<T>::reverse_iterator Vector<T>::rbegin()
 {
-    Vector<T>::ReverseIterator it(m_data + m_size - 1);
+    Vector<T>::reverse_iterator it(m_data + m_size - 1);
     return it;
 }
 
 template <typename T>
-typename Vector<T>::ReverseIterator Vector<T>::rend()
+typename Vector<T>::reverse_iterator Vector<T>::rend()
 {
-    Vector<T>::ReverseIterator it(m_data - 1);
+    Vector<T>::reverse_iterator it(m_data - 1);
     return it;
 }
 
 template <typename T>
-typename Vector<T>::Iterator Vector<T>::find(const T & value)
+typename Vector<T>::iterator Vector<T>::find(const T & value)
 {
-    for (Vector<T>::Iterator it = begin(); it != end(); it++)
+    for (Vector<T>::iterator it = begin(); it != end(); it++)
     {
         if (*it == value)
         {
@@ -545,28 +545,28 @@ typename Vector<T>::Iterator Vector<T>::find(const T & value)
 }
 
 template <typename T>
-typename Vector<T>::Iterator Vector<T>::rfind(const T & value)
+typename Vector<T>::iterator Vector<T>::rfind(const T & value)
 {
-    for (Vector<T>::ReverseIterator it = rbegin(); it != rend(); it++)
+    for (Vector<T>::reverse_iterator it = rbegin(); it != rend(); it++)
     {
         if (*it == value)
         {
-            return Vector<T>::Iterator(it.operator->());
+            return Vector<T>::iterator(it.operator->());
         }
     }
     return end();
 }
 
 template <typename T>
-typename Vector<T>::Iterator Vector<T>::insert(Vector<T>::Iterator it, const T & value)
+typename Vector<T>::iterator Vector<T>::insert(Vector<T>::iterator pos, const T & value)
 {
-    return insert(it, 1, value);
+    return insert(pos, 1, value);
 }
 
 template <typename T>
-typename Vector<T>::Iterator Vector<T>::insert(Vector<T>::Iterator it, int n, const T & value)
+typename Vector<T>::iterator Vector<T>::insert(Vector<T>::iterator pos, int n, const T & value)
 {
-    int size = it - begin();
+    int size = pos - begin();
     if (m_size + n <= m_capacity)
     {
         if (is_basic_type())
@@ -585,7 +585,7 @@ typename Vector<T>::Iterator Vector<T>::insert(Vector<T>::Iterator it, int n, co
             m_data[size + i] = value;
         }
         m_size += n;
-        return Vector<T>::Iterator(m_data + size);
+        return Vector<T>::iterator(m_data + size);
     }
     while (m_size + n > m_capacity)
     {
@@ -634,18 +634,18 @@ typename Vector<T>::Iterator Vector<T>::insert(Vector<T>::Iterator it, int n, co
     }
     m_data = data;
     m_size += n;
-    return Vector<T>::Iterator(m_data + size);
+    return Vector<T>::iterator(m_data + size);
 }
 
 template <typename T>
-typename Vector<T>::Iterator Vector<T>::erase(Vector<T>::Iterator it)
+typename Vector<T>::iterator Vector<T>::erase(Vector<T>::iterator pos)
 {
-    if (end() - it == 1)
+    if (end() - pos == 1)
     {
         m_size -= 1;
         return end();
     }
-    int size = it - begin();
+    int size = pos - begin();
     if (is_basic_type())
     {
         std::memmove(m_data + size, m_data + size + 1, (m_size - size - 1) * sizeof(T));
@@ -658,11 +658,11 @@ typename Vector<T>::Iterator Vector<T>::erase(Vector<T>::Iterator it)
         }
     }
     m_size -= 1;
-    return it;
+    return pos;
 }
 
 template <typename T>
-typename Vector<T>::Iterator Vector<T>::erase(Vector<T>::Iterator first, Vector<T>::Iterator last)
+typename Vector<T>::iterator Vector<T>::erase(Vector<T>::iterator first, Vector<T>::iterator last)
 {
     int f = first - begin();
     int l = last - begin();
