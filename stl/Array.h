@@ -34,6 +34,10 @@ public:
 template <typename T>
 Array<T>::Array(int size, const T & value)
 {
+    if (size <= 0)
+    {
+        throw std::logic_error("invalid size");
+    }
     this->m_data = new T[size];
     this->m_size = size;
     this->m_capacity = size;
